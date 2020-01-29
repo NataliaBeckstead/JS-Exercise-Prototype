@@ -81,25 +81,24 @@ Car.prototype.fill = function (gallons) {
   return this.tank = this.tank + gallons;
 };
 Car.prototype.drive = function (distance) {
-  if (this.tank > 0) {
-    if (this.tank / this.milesPerGallon >= distance) {
-      this.odometer = this.odometer + distance;
-      this.tank = this.tank - this.milesPerGallon * distance;
-    } else {
-      this.odometer = this.odometer + this.tank / this.milesPerGallon;
-      console.log(`We was able to drive ${this.tank / this.milesPerGallon} miles out of ${distance} miles. Now we out of gas`)
-      this.tank  = 0;
-    }
+  if (this.tank * this.milesPerGallon >= distance) {
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - distance / this.milesPerGallon;
+  } else {
+    this.odometer = this.odometer + this.tank * this.milesPerGallon;
+    console.log(`We was able to drive ${this.tank * this.milesPerGallon} miles out of ${distance} miles. Now we out of gas`)
+    this.tank  = 0;
+    return `Not enough fuel for full trip. We stopped at ${this.odometer}`; //added trying to pass test
   }
 };
 
-const myCar = new Car ("Mazda", 5);
+const myCar = new Car ("Mazda", 20);
 console.log(`Car created`);
 console.log(myCar);
-myCar.fill(20);
+myCar.fill(10);
 console.log(`Tank filled`);
 console.log(myCar);
-myCar.drive(5);
+myCar.drive(250);
 console.log(`Test drive`);
 console.log(myCar);
 
@@ -110,18 +109,26 @@ console.log(myCar);
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby (name, age, favoriteToy) {
+  Person.call (this, name, age);
+  this.favoriteToy = favoriteToy;
+}
 
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window/Global Object Binding - using 'this' in global scope makes 'this' being equal to Window 
+  2. Implicit Binding - if we calling function on oblect using dot, object before this dot is 'this'
+  3. New binding - in constructor function it's specific instance of the object that is created and returned by the constructor
+  4. Explicit binding - if using call or apply method, 'this' is explicitly defined
+  "Implicitly" means that the JS engine does it. "Explicitly" means that you must do it."
 */
 
 
