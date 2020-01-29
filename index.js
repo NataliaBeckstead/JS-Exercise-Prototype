@@ -88,7 +88,7 @@ Car.prototype.drive = function (distance) {
     this.odometer = this.odometer + this.tank * this.milesPerGallon;
     console.log(`We was able to drive ${this.tank * this.milesPerGallon} miles out of ${distance} miles. Now we out of gas`)
     this.tank  = 0;
-    return `Not enough fuel for full trip. We stopped at ${this.odometer}`; //added trying to pass test
+    return `I ran out of fuel at ${this.odometer} miles!`;
   }
 };
 
